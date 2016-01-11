@@ -9,7 +9,7 @@ namespace Assets.Script
     {
     }
 
-    enum Pose
+    enum ArmPose
     {
         None = 0,
         HandleWeapon = 1,

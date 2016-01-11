@@ -68,10 +68,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Assets\Script\Behaviour\OpenRoot.cs" />
+    <Compile Include="Assets\Script\Behaviour\EnableRootMotion.cs" />
     <Compile Include="Assets\Script\Beta.cs" />
     <Compile Include="Assets\Script\Enum\ArmPoseEnum.cs" />
-    <Compile Include="Assets\Script\Test.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\SyntaxTree\UnityVS\2013\UnityVS.CSharp.targets" />
 </Project>

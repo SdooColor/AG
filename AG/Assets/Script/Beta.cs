@@ -4,8 +4,8 @@ using Assets.Script;
 
 public class Beta : MonoBehaviour {
     public float gravity = 20.0F;
-    public float walkSpeed = 6.0F;
-    public float runSpeed = 12.0F;
+    public float walkSpeed = 2.0F;
+    public float runSpeed = 6.0F;
 
     // 摄像机
     public Transform camera;
@@ -24,14 +24,22 @@ public class Beta : MonoBehaviour {
     // Beta 的默认朝向（只能通过鼠标按住右键旋转）
     private Vector3 curForward;
 
+    private ArmPose armPose = ArmPose.None;
+    private bool hasWeapon = false;
+    private bool isAttack = false;
+
     private float cameraRotationX = 30.0F;
     private float cameraRotationY = 0.0F;
+
+    private
 
 	void Start () {
         myAnimator = GetComponent<Animator>();
         controller = GetComponent<CharacterController>();
 
         curForward = Vector3.forward;
+
+        weapon.SetActive(false);
 	}
 	
 	// Update is called once per frame
@@ -63,19 +71,34 @@ public class Beta : MonoBehaviour {
             cameraRotationY += mouseX * cameraSmooth;
 
             curForward = Quaternion.Euler(new Vector3(0,mouseX * cameraSmooth, 0)) * curForward;
-            Debug.Log(curForward);
         }
     }
 
     private void updateModeAction() {
         if (Input.GetButtonUp("Weapon")) {
-            Pose now = myAnimator.GetInteger("ArmPose") == (int)Pose.None ? Pose.HandleWeapon : Pose.None;
-            myAnimator.SetInteger("ArmPose",(int)now);
-
-            weapon.SetActive(now != Pose.None);
+            hasWeapon = !hasWeapon;
         }
 
-        myAnimator.SetBool("isAttack", Input.GetButton("Fire1"));
+        isAttack = hasWeapon && Input.GetButton("Fire1");
+
+        if (hasWeapon) {
+            if (isAttack) {
+                armPose = ArmPose.None;
+            }
+            else {
+                armPose = ArmPose.HandleWeapon;
+            }
+        }
+        else {
+            armPose = ArmPose.None;
+        }
+
+        // 设置攻击状态
+        myAnimator.SetBool("isAttack",isAttack);
+        // 设置武器的显示
+        weapon.SetActive(hasWeapon);
+        // 设置手臂姿态
+        myAnimator.SetInteger("ArmPose",(int)armPose);
     }
 
     private void updateModeRotLoc() {
