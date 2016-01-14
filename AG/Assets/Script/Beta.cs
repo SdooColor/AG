@@ -26,7 +26,7 @@ public class Beta : MonoBehaviour {
 
     private ArmPose armPose = ArmPose.None;
     private bool hasWeapon = false;
-    private bool isAttack = false;
+    public bool isAttack = false;
 
     private float cameraRotationX = 30.0F;
     private float cameraRotationY = 0.0F;
